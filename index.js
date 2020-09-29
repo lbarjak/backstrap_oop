@@ -7,23 +7,22 @@ class Hexagon {
         this.sn = Hexagon.sn++;
     }
     drawHexagon = (x, y, color) => {
-        context.beginPath()
-        context.moveTo(x + Hexagon.hex[0][0], y + Hexagon.hex[0][1])
+        layer1.beginPath()
+        layer1.moveTo(x + Hexagon.hex[0][0], y + Hexagon.hex[0][1])
         for (let i = 1; i < Hexagon.hex.length; i++)
-            context.lineTo(x + Hexagon.hex[i][0], y + Hexagon.hex[i][1])
-        context.fillStyle = color;
-        context.fill();
+            layer1.lineTo(x + Hexagon.hex[i][0], y + Hexagon.hex[i][1])
+        layer1.fillStyle = color;
+        layer1.fill();
         //console.log(this.sn);
     }
 }
 
 let canvas = document.getElementById("canvas")
-let context = canvas.getContext('2d')
-canvas.width = 600;
-canvas.height = 300;
-const bgColor = "#808080";
-context.fillStyle = bgColor;
-context.fillRect(0, 0, canvas.width, canvas.height);
+let layer1 = canvas.getContext('2d')
+canvas.width = 600
+canvas.height = 300
+layer1.fillStyle = "grey"
+layer1.fillRect(0, 0, canvas.width, canvas.height)
 
 const patterns = {
     "hullamos": { "upper": "vvvvvsvvvv", "lower": "vvvvsvvvvv" },
@@ -61,7 +60,7 @@ const draw = () => {
     hexagon.drawHexagon(x, y, color);
 
     position = position + alternate//oda-vissza
-    console.log(position);
+    console.log(position)
     if (position === rowOfPattern.length || position === -1) {
         ++row
         position = row % 2 * (rowOfPattern.length - 1)//a sor eleje vagy vége
@@ -75,16 +74,14 @@ const draw = () => {
         position = 0
         alternate = 1
     }
-};
+}
 
 draw();
 
 canvas.addEventListener('click', () => {
     if (!row && !position) {
-        context.clearRect(0, 0, canvas.width, canvas.height)
-        context.rect(0, 0, canvas.width, canvas.height);
-        context.fillStyle = bgColor;
-        context.fill();
+        layer1.fillStyle = "grey"
+        layer1.fillRect(0, 0, canvas.width, canvas.height)
         draw()
     }
 })
