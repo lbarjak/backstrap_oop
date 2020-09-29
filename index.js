@@ -52,7 +52,6 @@ let alternate = 1
 
 const draw = () => {
 
-    //alternate = 1 - row % 2 * 2// 1 vagy -1
     rowOfPattern = pattNow[patterns.healds[row % 2]]//0 felső, 1 alsó
     y = 4 + row * 41
     x = canvas.width / 2 - 1 - rowOfPattern.length * 8
@@ -62,6 +61,7 @@ const draw = () => {
     hexagon.drawHexagon(x, y, color);
 
     position = position + alternate//oda-vissza
+    console.log(position);
     if (position === rowOfPattern.length || position === -1) {
         ++row
         position = row % 2 * (rowOfPattern.length - 1)//a sor eleje vagy vége
@@ -71,7 +71,9 @@ const draw = () => {
     timer = setTimeout(() => draw(), 30)
     if (row > canvas.height / 41 - 1) {
         clearTimeout(timer)
-        row = 0; position = 0
+        row = 0
+        position = 0
+        alternate = 1
     }
 };
 
