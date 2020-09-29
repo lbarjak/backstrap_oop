@@ -2,14 +2,21 @@
 
 class Hexagon {
     static sn = 0;
+    static hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]];
     constructor(x, y, color) {
-        const hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]];
-        this.hex = hex;
+        this.x = x;
+        this.y = y;
+        this.color = color;
         this.sn = Hexagon.sn++;
-        this.draw();
+        this.drawHexagon(this.x, this.y, this.color);
     }
-    draw() {
-        console.log(this.sn++);
+    drawHexagon = (x, y, color) => {
+        context.beginPath()
+        context.moveTo(x + Hexagon.hex[0][0], y + Hexagon.hex[0][1])
+        for (let i = 1; i < Hexagon.hex.length; i++)
+            context.lineTo(x + Hexagon.hex[i][0], y + Hexagon.hex[i][1])
+        context.fillStyle = color;
+        context.fill();
     }
 }
 
@@ -37,14 +44,6 @@ let row = 0, pos = 0, lengthOfPattern, timer
 let pattNow = patterns[nameOfPattern]
 let corr = pattNow.upper.length === pattNow.lower.length ? 4 : 0
 
-const hexagon = (x, y, color) => {
-    context.beginPath()
-    context.moveTo(x + hex[0][0], y + hex[0][1])
-    for (let i = 1; i < hex.length; i++)
-        context.lineTo(x + hex[i][0], y + hex[i][1])
-    context.fillStyle = color; context.fill()
-}
-
 const draw = () => {
     let dir = row % 2 ? -1 : 1
     let x, y = 4 + row * 41, color
@@ -52,8 +51,7 @@ const draw = () => {
     x = 299 - pattern.length * 8
     x = x + pos * 16 + dir * corr * -1
     color = patterns.colors[pattern[pos]]
-    new Hexagon().draw();
-    hexagon(x, y, color)
+    new Hexagon(x, y, color);
     pos = pos + dir
     if (pos === pattern.length || pos === -1)
         pos = (++row % 2) * (patterns[nameOfPattern][patterns.healds[row % 2]].length - 1)
