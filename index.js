@@ -3,12 +3,8 @@
 class Hexagon {
     static sn = 0;
     static hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]];
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
+    constructor() {
         this.sn = Hexagon.sn++;
-        this.drawHexagon(this.x, this.y, this.color);
     }
     drawHexagon = (x, y, color) => {
         context.beginPath()
@@ -17,6 +13,7 @@ class Hexagon {
             context.lineTo(x + Hexagon.hex[i][0], y + Hexagon.hex[i][1])
         context.fillStyle = color;
         context.fill();
+        //console.log(this.sn);
     }
 }
 
@@ -38,34 +35,50 @@ const patterns = {
     "colors": { "v": "white", "s": "red" },
     "healds": { "0": "upper", "1": "lower" }
 }
+
+let hexagon = new Hexagon();
+
 let nameOfPattern = "kigyohatas"
-const hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]]
-let row = 0, pos = 0, lengthOfPattern, timer
 let pattNow = patterns[nameOfPattern]
-let corr = pattNow.upper.length === pattNow.lower.length ? 4 : 0
+let correction = pattNow.upper.length === pattNow.lower.length ? 4 : 0
+let timer
+let x
+let y
+let color
+let rowOfPattern
+let row = 0
+let position = 0
+let alternate = 1
 
 const draw = () => {
-    let dir = row % 2 ? -1 : 1
-    let x, y = 4 + row * 41, color
-    let pattern = pattNow[patterns.healds[row % 2]]
-    x = 299 - pattern.length * 8
-    x = x + pos * 16 + dir * corr * -1
-    color = patterns.colors[pattern[pos]]
-    new Hexagon(x, y, color);
-    pos = pos + dir
-    if (pos === pattern.length || pos === -1)
-        pos = (++row % 2) * (patterns[nameOfPattern][patterns.healds[row % 2]].length - 1)
-    timer = setTimeout(() => draw(), 50)
-    if (row === 7) {
+
+    //alternate = 1 - row % 2 * 2// 1 vagy -1
+    rowOfPattern = pattNow[patterns.healds[row % 2]]//0 felső, 1 alsó
+    y = 4 + row * 41
+    x = canvas.width / 2 - 1 - rowOfPattern.length * 8
+    x = x + position * 16 - alternate * correction
+    color = patterns.colors[rowOfPattern[position]]
+
+    hexagon.drawHexagon(x, y, color);
+
+    position = position + alternate//oda-vissza
+    if (position === rowOfPattern.length || position === -1) {
+        ++row
+        position = row % 2 * (rowOfPattern.length - 1)//a sor eleje vagy vége
+        alternate = 1 - row % 2 * 2// 1 vagy -1, előre vagy hátra
+    }
+
+    timer = setTimeout(() => draw(), 30)
+    if (row > canvas.height / 41 - 1) {
         clearTimeout(timer)
-        row = 0; pos = 0
+        row = 0; position = 0
     }
 };
 
 draw();
 
 canvas.addEventListener('click', () => {
-    if (!row && !pos) {
+    if (!row && !position) {
         context.clearRect(0, 0, canvas.width, canvas.height)
         context.rect(0, 0, canvas.width, canvas.height);
         context.fillStyle = bgColor;
