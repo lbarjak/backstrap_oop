@@ -1,5 +1,18 @@
 'use strict' // Barják László, 2020.09.29.
 
+class Hexagon {
+    static sn = 0;
+    constructor(x, y, color) {
+        const hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]];
+        this.hex = hex;
+        this.sn = Hexagon.sn++;
+        this.draw();
+    }
+    draw() {
+        console.log(this.sn++);
+    }
+}
+
 let canvas = document.getElementById("canvas")
 let context = canvas.getContext('2d')
 canvas.width = 600;
@@ -39,6 +52,7 @@ const draw = () => {
     x = 299 - pattern.length * 8
     x = x + pos * 16 + dir * corr * -1
     color = patterns.colors[pattern[pos]]
+    new Hexagon().draw();
     hexagon(x, y, color)
     pos = pos + dir
     if (pos === pattern.length || pos === -1)
