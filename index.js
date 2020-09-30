@@ -1,4 +1,4 @@
-'use strict' // Barják László, 2020.09.29.
+'use strict' // Barják László, 2020.09.30.
 
 class Hexagon {
     static sn = 0;
@@ -13,7 +13,6 @@ class Hexagon {
             layer1.lineTo(x + Hexagon.hex[i][0], y + Hexagon.hex[i][1])
         layer1.fillStyle = color;
         layer1.fill();
-        //console.log(this.sn);
     }
 }
 
@@ -61,7 +60,6 @@ const draw = () => {
     hexagon.drawHexagon(x, y, color);
 
     position = position + alternate
-    console.log(position)
     if (position === rowOfPattern.length || position === -1) {
         ++row
         position = row % 2 * (pattNow[patterns.healds[row % 2]].length - 1)
