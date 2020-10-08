@@ -1,10 +1,10 @@
 'use strict' // Barják László, 2020.09.30.
 
 class Hexagon {
-    static sn = 0;
+    static serialNumberOfHexagon = 0;
     static hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]];
     constructor() {
-        this.sn = Hexagon.sn++;
+        this.serialNumberOfHexagon = Hexagon.serialNumberOfHexagon++;
     }
     drawHexagon = (x, y, color) => {
         layer1.beginPath()
@@ -34,10 +34,10 @@ const patterns = {
     "healds": { "0": "upper", "1": "lower" }
 }
 
-let hexagon = new Hexagon();
-
 let nameOfPattern = "kigyohatas"
 let pattNow = patterns[nameOfPattern]
+let hexagons = [];
+let lengthOfHexagons;
 let correction = pattNow.upper.length === pattNow.lower.length ? 4 : 0
 let timer
 let x
@@ -57,7 +57,10 @@ const draw = () => {
     x = x + position * 16 - alternate * correction
     color = patterns.colors[rowOfPattern[position]]
 
-    hexagon.drawHexagon(x, y, color);
+    hexagons.push(new Hexagon());
+    lengthOfHexagons = hexagons.length;
+    hexagons[lengthOfHexagons - 1].drawHexagon(x, y, color);
+    console.log(hexagons[lengthOfHexagons - 1].serialNumberOfHexagon);
 
     position = position + alternate
     if (position === rowOfPattern.length || position === -1) {
