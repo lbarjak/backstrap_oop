@@ -50,13 +50,18 @@ let alternate
 
 const preDraw = () => {
     while (row < (canvas.height - Hexagon.hex[1][1]) / Hexagon.hex[5][1] - 1) {
+        hexagons.push([])
         rowOfPattern = pattNow[patterns.healds[row % 2]]
-            ;[...rowOfPattern].forEach(() => hexagons.push(new Hexagon()))
+            ;[...rowOfPattern].forEach(() => hexagons[row].push(new Hexagon()))
         row++
     }
 }
 preDraw();
-hexagons.forEach((element) => console.log(element.serialNumberOfHexagon))
+
+hexagons.forEach((row) => {
+    row.forEach((element) => console.log(element.serialNumberOfHexagon))
+})
+//hexagons.forEach((element) => console.log(element.serialNumberOfHexagon))
 
 /* const draw = () => {
 
