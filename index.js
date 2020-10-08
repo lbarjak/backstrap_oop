@@ -3,8 +3,10 @@
 class Hexagon {
     static serialNumberOfHexagon = 0;
     static hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]]
-    constructor() {
+    constructor(row, index) {
         this.serialNumberOfHexagon = Hexagon.serialNumberOfHexagon++
+        this.numberOfRow = row
+        this.numberInRow = index
     }
     drawHexagon = (x, y, color) => {
         layer1.beginPath()
@@ -52,16 +54,20 @@ const preDraw = () => {
     while (row < (canvas.height - Hexagon.hex[1][1]) / Hexagon.hex[5][1] - 1) {
         hexagons.push([])
         rowOfPattern = pattNow[patterns.healds[row % 2]]
-            ;[...rowOfPattern].forEach(() => hexagons[row].push(new Hexagon()))
+        for (let index = 0; index < rowOfPattern.length; index++) {
+            hexagons[row][index] = new Hexagon(row, index);
+        }
         row++
     }
 }
 preDraw();
 
 hexagons.forEach((row) => {
-    row.forEach((element) => console.log(element.serialNumberOfHexagon))
+    row.forEach((element) => console.log(
+        element.numberOfRow,
+        element.serialNumberOfHexagon,
+        element.numberInRow))
 })
-//hexagons.forEach((element) => console.log(element.serialNumberOfHexagon))
 
 /* const draw = () => {
 
