@@ -59,17 +59,18 @@ const preDraw = () => {
         }
         row++
     }
+    row = 0
 }
-preDraw();
+preDraw()
 
-hexagons.forEach((row) => {
+/* hexagons.forEach((row) => {
     row.forEach((element) => console.log(
         element.numberOfRow,
         element.serialNumberOfHexagon,
         element.numberInRow))
-})
+}) */
 
-/* const draw = () => {
+const draw = () => {
 
     alternate = 1 - row % 2 * 2
     rowOfPattern = pattNow[patterns.healds[row % 2]]
@@ -78,10 +79,8 @@ hexagons.forEach((row) => {
     x = x + position * 16 - alternate * correction
     color = patterns.colors[rowOfPattern[position]]
 
-    hexagons.push(new Hexagon());
-    lengthOfHexagons = hexagons.length;
-    hexagons[lengthOfHexagons - 1].drawHexagon(x, y, color);
-    console.log(row, hexagons[lengthOfHexagons - 1].serialNumberOfHexagon);
+    lengthOfHexagons = hexagons[row].length;
+    hexagons[row][lengthOfHexagons - 1].drawHexagon(x, y, color);
 
     position = position + alternate
     if (position === rowOfPattern.length || position === -1) {
@@ -90,7 +89,7 @@ hexagons.forEach((row) => {
     }
 
     timer = setTimeout(() => draw(), 30)
-    if (row > canvas.height / 41 - 1) {
+    if (row > hexagons.length - 1) {
         clearTimeout(timer)
         row = 0
         position = 0
@@ -98,7 +97,7 @@ hexagons.forEach((row) => {
     }
 }
 
-draw(); */
+draw();
 
 canvas.addEventListener('click', () => {
     if (!row && !position) {
