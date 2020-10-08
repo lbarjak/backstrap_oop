@@ -2,17 +2,17 @@
 
 class Hexagon {
     static serialNumberOfHexagon = 0;
-    static hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]];
+    static hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]]
     constructor() {
-        this.serialNumberOfHexagon = Hexagon.serialNumberOfHexagon++;
+        this.serialNumberOfHexagon = Hexagon.serialNumberOfHexagon++
     }
     drawHexagon = (x, y, color) => {
         layer1.beginPath()
         layer1.moveTo(x + Hexagon.hex[0][0], y + Hexagon.hex[0][1])
         for (let i = 1; i < Hexagon.hex.length; i++)
             layer1.lineTo(x + Hexagon.hex[i][0], y + Hexagon.hex[i][1])
-        layer1.fillStyle = color;
-        layer1.fill();
+        layer1.fillStyle = color
+        layer1.fill()
     }
 }
 
@@ -48,7 +48,17 @@ let row = 0
 let position = 0
 let alternate
 
-const draw = () => {
+const preDraw = () => {
+    while (row < (canvas.height - Hexagon.hex[1][1]) / Hexagon.hex[5][1] - 1) {
+        rowOfPattern = pattNow[patterns.healds[row % 2]]
+            ;[...rowOfPattern].forEach(() => hexagons.push(new Hexagon()))
+        row++
+    }
+}
+preDraw();
+hexagons.forEach((element) => console.log(element.serialNumberOfHexagon))
+
+/* const draw = () => {
 
     alternate = 1 - row % 2 * 2
     rowOfPattern = pattNow[patterns.healds[row % 2]]
@@ -60,7 +70,7 @@ const draw = () => {
     hexagons.push(new Hexagon());
     lengthOfHexagons = hexagons.length;
     hexagons[lengthOfHexagons - 1].drawHexagon(x, y, color);
-    console.log(hexagons[lengthOfHexagons - 1].serialNumberOfHexagon);
+    console.log(row, hexagons[lengthOfHexagons - 1].serialNumberOfHexagon);
 
     position = position + alternate
     if (position === rowOfPattern.length || position === -1) {
@@ -77,7 +87,7 @@ const draw = () => {
     }
 }
 
-draw();
+draw(); */
 
 canvas.addEventListener('click', () => {
     if (!row && !position) {
