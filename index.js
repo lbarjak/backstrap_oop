@@ -1,24 +1,16 @@
 'use strict' // Barják László, 2020.09.30.
 
 let hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]]
-// let hexagon = {
-//     "drawHexagon": (x, y, color) => {
-//         layer1.beginPath()
-//         layer1.moveTo(x + hex[0][0], y + hex[0][1])
-//         for (let i = 1; i < hex.length; i++)
-//             layer1.lineTo(x + hex[i][0], y + hex[i][1])
-//         layer1.fillStyle = color
-//         layer1.fill()
-//     }
-// }
-
-let hexagon = (x, y, color) => {
-    layer1.beginPath()
-    layer1.moveTo(x + hex[0][0], y + hex[0][1])
-    for (let i = 1; i < hex.length; i++)
-        layer1.lineTo(x + hex[i][0], y + hex[i][1])
-    layer1.fillStyle = color
-    layer1.fill()
+let hexagon = {
+    "drawHexagon": (x, y, color) => {
+        layer1.beginPath()
+        layer1.moveTo(x + hex[0][0], y + hex[0][1])
+        for (let i = 1; i < hex.length; i++)
+            layer1.lineTo(x + hex[i][0], y + hex[i][1])
+        layer1.fillStyle = color
+        layer1.fill()
+    },
+    "serNum": 0
 }
 
 let canvas = document.getElementById("canvas")
@@ -58,13 +50,16 @@ const preDraw = () => {
         hexagons.push([])
         rowOfPattern = pattNow[patterns.healds[row % 2]]
         for (let index = 0; index < rowOfPattern.length; index++) {
-            hexagons[row][index] = hexagon
+            hexagons[row][index] = Object.create(hexagon)
+            hexagons[row][index].serNum = index
         }
         row++
     }
     row = 0
 }
 preDraw()
+
+//hexagons.forEach((serNum) => console.log(serNum))
 
 const draw = () => {
 
@@ -76,8 +71,7 @@ const draw = () => {
     color = patterns.colors[rowOfPattern[position]]
 
     lengthOfHexagons = hexagons[row].length;
-    //hexagons[row][lengthOfHexagons - 1].drawHexagon(x, y, color)
-    hexagons[row][lengthOfHexagons - 1](x, y, color)
+    hexagons[row][lengthOfHexagons - 1].drawHexagon(x, y, color)
 
     position = position + alternate
     if (position === rowOfPattern.length || position === -1) {
