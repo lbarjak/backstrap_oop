@@ -1,21 +1,24 @@
 'use strict' // Barják László, 2020.09.30.
 
-class Hexagon {
-    static serialNumberOfHexagon = 0;
-    static hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]]
-    constructor(row, index) {
-        this.serialNumberOfHexagon = Hexagon.serialNumberOfHexagon++
-        this.numberOfRow = row
-        this.numberInRow = index
-    }
-    drawHexagon = (x, y, color) => {
-        layer1.beginPath()
-        layer1.moveTo(x + Hexagon.hex[0][0], y + Hexagon.hex[0][1])
-        for (let i = 1; i < Hexagon.hex.length; i++)
-            layer1.lineTo(x + Hexagon.hex[i][0], y + Hexagon.hex[i][1])
-        layer1.fillStyle = color
-        layer1.fill()
-    }
+let hex = [[0, 7], [7, 0], [14, 7], [14, 39], [7, 46], [0, 39]]
+// let hexagon = {
+//     "drawHexagon": (x, y, color) => {
+//         layer1.beginPath()
+//         layer1.moveTo(x + hex[0][0], y + hex[0][1])
+//         for (let i = 1; i < hex.length; i++)
+//             layer1.lineTo(x + hex[i][0], y + hex[i][1])
+//         layer1.fillStyle = color
+//         layer1.fill()
+//     }
+// }
+
+let hexagon = (x, y, color) => {
+    layer1.beginPath()
+    layer1.moveTo(x + hex[0][0], y + hex[0][1])
+    for (let i = 1; i < hex.length; i++)
+        layer1.lineTo(x + hex[i][0], y + hex[i][1])
+    layer1.fillStyle = color
+    layer1.fill()
 }
 
 let canvas = document.getElementById("canvas")
@@ -51,24 +54,17 @@ let position = 0
 let alternate
 
 const preDraw = () => {
-    while (row < (canvas.height - Hexagon.hex[1][1]) / Hexagon.hex[5][1] - 1) {
+    while (row < (canvas.height - hex[1][1]) / hex[5][1] - 1) {
         hexagons.push([])
         rowOfPattern = pattNow[patterns.healds[row % 2]]
         for (let index = 0; index < rowOfPattern.length; index++) {
-            hexagons[row][index] = new Hexagon(row, index);
+            hexagons[row][index] = hexagon
         }
         row++
     }
     row = 0
 }
 preDraw()
-
-/* hexagons.forEach((row) => {
-    row.forEach((element) => console.log(
-        element.numberOfRow,
-        element.serialNumberOfHexagon,
-        element.numberInRow))
-}) */
 
 const draw = () => {
 
@@ -80,7 +76,8 @@ const draw = () => {
     color = patterns.colors[rowOfPattern[position]]
 
     lengthOfHexagons = hexagons[row].length;
-    hexagons[row][lengthOfHexagons - 1].drawHexagon(x, y, color);
+    //hexagons[row][lengthOfHexagons - 1].drawHexagon(x, y, color)
+    hexagons[row][lengthOfHexagons - 1](x, y, color)
 
     position = position + alternate
     if (position === rowOfPattern.length || position === -1) {
