@@ -13,7 +13,7 @@ let hexagon = {
     "serNum": 0
 }
 
-let canvas = document.getElementById("canvas")
+let canvas = document.querySelector("canvas")
 let layer1 = canvas.getContext('2d')
 canvas.width = 600
 canvas.height = 300
